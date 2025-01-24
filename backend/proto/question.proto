@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package com.dvs;
+
+// The service definition
+
+
+// Message for search request
+message SearchRequest {
+  string query = 1;       // The search query string
+  int32 page = 2;         // The page number for pagination
+  int32 limit = 3;        // The number of results per page
+  string questionType = 4; // Optional filter for question type (e.g., ANAGRAM)
+}
+
+// Message for a block (used in anagram questions)
+message Block {
+  string text = 1;          // The text of the block
+  bool showInOption = 2;    // Whether the block should be shown as an option
+  bool isAnswer = 3;        // Whether the block is part of the correct answer
+}
+
+// Message for a single question
+message Question {
+  string id = 1;                // Unique identifier for the question
+  string type = 2;              // Type of the question (e.g., ANAGRAM)
+  string anagramType = 3;       // Anagram type (e.g., WORD, SENTENCE) (optional)
+  repeated Block blocks = 4;    // List of blocks (for ANAGRAM questions)
+  string title = 5;             // Title of the question (optional for ANAGRAM)
+}
+
+// Message for search response
+message SearchResponse {
+  repeated Question questions = 1; // List of questions matching the query
+  int32 totalResults = 2;          // Total number of matching questions
+  int32 totalPages = 3;            // Total number of pages
+}
+
+
+service QuestionSearchService {
+    // RPC method for searching questions
+    rpc SearchQuestions(SearchRequest) returns (SearchResponse);
+}
