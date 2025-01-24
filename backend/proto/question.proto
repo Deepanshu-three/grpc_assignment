@@ -1,9 +1,9 @@
 syntax = "proto3";
+import "google/protobuf/empty.proto";
 
 package com.dvs;
 
 // The service definition
-
 
 // Message for search request
 message SearchRequest {
@@ -36,8 +36,16 @@ message SearchResponse {
   int32 totalPages = 3;            // Total number of pages
 }
 
+// Message for show all questions response
+ 
+message ShowAllQuestionsResponse {
+  repeated Question questions = 1; // List of all questions
+}
 
 service QuestionSearchService {
-    // RPC method for searching questions
-    rpc SearchQuestions(SearchRequest) returns (SearchResponse);
+  // RPC method for searching questions
+  rpc SearchQuestions(SearchRequest) returns (SearchResponse);
+
+  // RPC method for showing all questions
+  rpc ShowAllQuestions(google.protobuf.Empty) returns (ShowAllQuestionsResponse);
 }
